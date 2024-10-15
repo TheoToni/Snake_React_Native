@@ -1,6 +1,7 @@
-import { StyleSheet } from "react-native";
-import { View } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import Snake from "./Snake";
+
+const { width, height } = Dimensions.get("window");
 
 export default function Gamefield() {
   return (
@@ -12,9 +13,10 @@ export default function Gamefield() {
 
 const styles = StyleSheet.create({
   gameField: {
-    flex: 1,
-    width: "100%",
+    width: width - 40, // Reduziere die Breite um Padding
+    height: height - 200, // Reduziere die Höhe, um Platz für andere UI-Elemente zu schaffen
     borderWidth: 4,
     borderColor: "black",
+    overflow: "hidden",
   },
 });
