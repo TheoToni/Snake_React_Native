@@ -28,7 +28,7 @@ export default function Snake() {
       });
     };
 
-    const interval = setInterval(moveSnake, 100);
+    const interval = setInterval(moveSnake, 200);
     return () => clearInterval(interval);
   }, [direction]);
 
