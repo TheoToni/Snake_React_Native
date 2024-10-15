@@ -2,7 +2,7 @@ import { View, StyleSheet } from "react-native";
 import { useState } from "react";
 
 export default function Snake() {
-  const [segments, setSegments] = useState([{ x: 10, y: 10 }]);
+  const [segments, setSegments] = useState([{ x: 100, y: 400 }]);
 
   return (
     <View>

@@ -1,9 +1,10 @@
 import { StyleSheet, View } from "react-native";
+import Gamefield from "./components/Gamefield";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <View style={styles.gameField}></View>
+      <Gamefield />
     </View>
   );
 }
@@ -14,11 +15,5 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     justifyContent: "center",
-  },
-  gameField: {
-    flex: 1,
-    width: "100%",
-    borderWidth: 4,
-    borderColor: "black",
   },
 });
