@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export default function App() {
   return (
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   gameField: {
     flex: 1,
     width: "100%",
-    borderWidth: 4, // Breite des Rahmens
-    borderColor: "black", // Farbe des Rahmens
+    borderWidth: 4,
+    borderColor: "black",
   },
 });
