@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 
 // Bildschirmabmessungen
 const { width, height } = Dimensions.get("window");
-const [food, setFood] = useState([{ x: 50, y: 150 }]);
 
 export default function Snake() {
   // Startposition in der Mitte des Bildschirms
@@ -12,10 +11,23 @@ export default function Snake() {
 
   const [segments, setSegments] = useState([
     { x: startX, y: startY },
-    { x: startX, y: startY + 20 }, // Nächstes Segment direkt darunter
-    { x: startX, y: startY + 40 }, // Nächstes Segment darunter
+    { x: startX, y: startY + 20 },
+    { x: startX, y: startY + 40 },
   ]);
-  const [direction, setDirection] = useState({ x: 0, y: -20 }); // Bewegung nach oben
+  const [direction, setDirection] = useState({ x: 0, y: -20 });
+  const [food, setFood] = useState([{ x: 0, y: 0 }]);
+
+  const placeFood = () => {
+    const maxX = width - 40; // Spielfeld-Breite minus Padding
+    const maxY = height - 200; // Spielfeld-Höhe minus Platz für UI-Elemente
+    const x = Math.floor(Math.random() * (maxX / 20)) * 20;
+    const y = Math.floor(Math.random() * (maxY / 20)) * 20;
+    setFood({ x, y });
+  };
+
+  useEffect(() => {
+    placeFood();
+  }, []);
 
   // Bewegungslogik
   useEffect(() => {
@@ -47,22 +59,22 @@ export default function Snake() {
   // PanResponder für Wischgesten einrichten
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: (evt, gestureState) => true,
-    onPanResponderRelease: (evt, gestureState) => {
+    onPanResponderMove: (evt, gestureState) => {
       const { dx, dy } = gestureState;
       // Wische nach oben
-      if (dy < -50) {
+      if (dy < -50 && direction.y === 0) {
         changeDirection({ x: 0, y: -20 });
       }
       // Wische nach unten
-      else if (dy > 50) {
+      else if (dy > 50 && direction.y === 0) {
         changeDirection({ x: 0, y: 20 });
       }
       // Wische nach links
-      else if (dx < -50) {
+      else if (dx < -50 && direction.x === 0) {
         changeDirection({ x: -20, y: 0 });
       }
       // Wische nach rechts
-      else if (dx > 50) {
+      else if (dx > 50 && direction.x === 0) {
         changeDirection({ x: 20, y: 0 });
       }
     },
@@ -70,6 +82,7 @@ export default function Snake() {
 
   return (
     <View style={styles.container} {...panResponder.panHandlers}>
+      {/* Snake Segmente */}
       {segments.map((segment, index) => (
         <View
           key={index}
@@ -82,6 +95,17 @@ export default function Snake() {
           ]}
         />
       ))}
+
+      {/* Nahrungsanzeige */}
+      <View
+        style={[
+          styles.food,
+          {
+            left: food.x,
+            top: food.y,
+          },
+        ]}
+      />
     </View>
   );
 }
@@ -97,5 +121,11 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     backgroundColor: "green",
+  },
+  food: {
+    position: "absolute",
+    width: 20,
+    height: 20,
+    backgroundColor: "red", // Farbe der Nahrung
   },
 });
