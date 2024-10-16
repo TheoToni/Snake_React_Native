@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 // Bildschirmabmessungen
 const { width, height } = Dimensions.get("window");
+const [food, setFood] = useState([{ x: 50, y: 150 }]);
 
 export default function Snake() {
   // Startposition in der Mitte des Bildschirms
