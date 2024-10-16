@@ -15,7 +15,7 @@ export default function Snake() {
     { x: startX, y: startY + 40 },
   ]);
   const [direction, setDirection] = useState({ x: 0, y: -20 });
-  const [food, setFood] = useState([{ x: 0, y: 0 }]);
+  const [food, setFood] = useState({ x: 0, y: 0 });
 
   const placeFood = () => {
     const maxX = width - 40; // Spielfeld-Breite minus Padding
@@ -37,13 +37,29 @@ export default function Snake() {
           x: prevSegments[0].x + direction.x,
           y: prevSegments[0].y + direction.y,
         };
+
+        // Toleranz für die Kollisionsprüfung
+        const tolerance = 20; // Toleranz in Pixeln
+
+        // Kollisionsprüfung mit Nahrung unter Berücksichtigung der Toleranz
+        if (
+          newSegment.x < food.x + tolerance &&
+          newSegment.x + 20 > food.x &&
+          newSegment.y < food.y + tolerance &&
+          newSegment.y + 20 > food.y
+        ) {
+          const newSegments = [newSegment, ...prevSegments];
+          placeFood(); // Nahrung neu platzieren
+          return newSegments; // Schlange wird länger
+        }
+
         return [newSegment, ...prevSegments.slice(0, -1)];
       });
     };
 
     const interval = setInterval(moveSnake, 200);
     return () => clearInterval(interval);
-  }, [direction]);
+  }, [direction, food]);
 
   // Funktion zur Handhabung der Richtung
   const changeDirection = (newDirection) => {
@@ -126,6 +142,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 20,
     height: 20,
-    backgroundColor: "red", // Farbe der Nahrung
+    backgroundColor: "red",
   },
 });
