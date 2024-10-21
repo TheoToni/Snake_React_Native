@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   gameField: {
     width: width - 40, // Breite um Padding reduziert
     height: height - 200, // Höhe um Platz für andere UI-Elemente reduziert
-    borderWidth: 10,
+    borderWidth: 20,
     borderColor: "black",
     overflow: "hidden",
     position: "relative", // Positionierung der Schlange relativ zur Gamefield
